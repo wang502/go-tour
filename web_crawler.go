@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
   "sync"
-  "time"
 )
 
 type SafeMap struct{
@@ -26,7 +25,7 @@ func Crawl(url string, depth int, fetcher Fetcher, m *SafeMap) {
   if depth <= 0 {
   	return
 	}
-  
+
   m.mutex.Lock()
   _, ok := m.v[url]
   if ok {
@@ -42,16 +41,24 @@ func Crawl(url string, depth int, fetcher Fetcher, m *SafeMap) {
 		return
 	}
 	fmt.Printf("found: %s %q\n", url, body)
+  done := make(chan bool)
 	for _, u := range urls {
-      go Crawl(u, depth-1, fetcher, m)
-	}
-	return
+      go func(url string){
+        Crawl(url, depth-1, fetcher, m)
+        done<-true
+      }(u)
+  }
+
+  for i, u := range urls {
+		fmt.Printf("<- [%v] %v/%v Waiting for child %v.\n", url, i, len(urls), u)
+    <-done
+  }
+  fmt.Printf("<- Done with %v\n", url)
 }
 
 func main() {
   m := SafeMap{v:make(map[string]bool)}
 	Crawl("http://golang.org/", 4, fetcher, &m)
-  time.Sleep(time.Second)
 }
 
 // fakeFetcher is Fetcher that returns canned results.
