@@ -55,6 +55,7 @@ func print_array(nums [5]int){
   fmt.Printf("\n")
 }
 
+// test passing slice by reference
 func testSlicePassBy_i(nums []int){
   if len(nums) == 0{
     return
@@ -62,6 +63,15 @@ func testSlicePassBy_i(nums []int){
   nums[0] = 100
 }
 
+// test passing pointer to slice
+func testSlicePassBy_ii(nums *[]int){
+  if len(*nums) == 0{
+    return
+  }
+  (*nums)[1] = 100
+}
+
+// test array passed by values
 func testArrayPassBy_i(nums [5]int){
   nums[0] = 100
 }
@@ -90,9 +100,17 @@ func main(){
   testSlicePassBy_i(nums3)
   print_slice(nums3)
 
+  fmt.Println("Before calling testSlicePassBy_ii:")
+  print_slice(nums3)
+  fmt.Println("After calling testSlicePassBy_ii:")
+  testSlicePassBy_ii(&nums3)
+  print_slice(nums3)
+
   fmt.Println("Before calling testArrayPassBy_i:")
   print_array(nums2)
   testArrayPassBy_i(nums2)
   fmt.Println("After calling testArrayPassBy_i:")
   print_array(nums2)
+
+
 }
