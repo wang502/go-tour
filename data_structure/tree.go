@@ -1,4 +1,4 @@
-package main
+package data_structure
 
 import "fmt"
 
@@ -43,7 +43,7 @@ func (tree *Tree) String() string{
   }
   return "(" + res + ")"
 }
-
+/*
 func main(){
   var tree *Tree
   tree = insert(tree, 5)
@@ -59,3 +59,4 @@ func main(){
   var arr []int
   fmt.Println(len(arr))
 }
+*/

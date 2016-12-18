@@ -41,6 +41,7 @@ func print_slice(nums []int){
   fmt.Printf("\n")
 }
 
+/*
 func main(){
   nums1 := make([]int, 20)
   for i:=0; i<len(nums1); i++{
@@ -52,3 +53,4 @@ func main(){
   fmt.Println("After merge sort: ")
   print_slice(merged)
 }
+*/
